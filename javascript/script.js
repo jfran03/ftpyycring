@@ -4,7 +4,7 @@ let logConsoleMessage = () => {
   console.log(
     "%c👋 Hey there" +
       "\n\n%cLooks like you're poking around in the console. Why not add your site to the webring?" +
-      "\n\n%c→ https://github.com/JusGu/uwatering",
+      "\n\n%c→ https://github.com/jfran03/ftpyycring",
     "font-size: 18px; font-weight: bold; color: #FF3366;",
     "font-size: 14px; color: #00FF00;",
     "font-size: 14px; color: #CE1126; text-decoration: underline;"
@@ -99,8 +99,8 @@ function filterWebring(searchTerm) {
   createWebringList(matchedSiteIndices);
 }
 let navigateWebring = () => {
-  // https://cs.uwatering.com/#your-site-here?nav=next OR
-  // https://cs.uwatering.com/#your-site-here?nav=prev
+  // https://ftp-yyc-webring.vercel.app/#your-site-here?nav=next OR
+  // https://ftp-yyc-webring.vercel.app/#your-site-here?nav=prev
   const fragment = window.location.hash.slice(1); // #your-site-here?nav=
   if (!fragment.includes("?")) return;
 
