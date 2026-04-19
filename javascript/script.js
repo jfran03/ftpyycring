@@ -1,4 +1,4 @@
-import { fuzzyMatch, formatUrl } from "./helpers.js";
+import { fuzzyMatch, formatUrl, getSiteProfession } from "./helpers.js";
 
 let logConsoleMessage = () => {
   console.log(
@@ -7,7 +7,7 @@ let logConsoleMessage = () => {
       "\n\n%c→ https://github.com/JusGu/uwatering",
     "font-size: 18px; font-weight: bold; color: #FF3366;",
     "font-size: 14px; color: #00FF00;",
-    "font-size: 14px; color: #3399FF; text-decoration: underline;"
+    "font-size: 14px; color: #CE1126; text-decoration: underline;"
   );
 };
 let createWebringList = (matchedSiteIndices) => {
@@ -20,12 +20,13 @@ let createWebringList = (matchedSiteIndices) => {
     const displayUrl = formatUrl(site.website);
 
     const listItem = document.createElement("div");
-    listItem.className = "grid grid-cols-12 sm:grid-cols-6 gap-3 sm:gap-6";
+    listItem.className =
+      "grid grid-cols-3 gap-x-4 sm:gap-x-6 items-baseline w-full max-w-full py-1";
     const isSearchItem =
       matchedSiteIndices.includes(index) &&
       matchedSiteIndices.length !== webringData.sites.length;
     if (isSearchItem) {
-      listItem.className += " bg-mustard-500";
+      listItem.className += " bg-ftp-red";
     }
 
     if (firstHighlightedItem === null && isSearchItem) {
@@ -33,32 +34,34 @@ let createWebringList = (matchedSiteIndices) => {
     }
 
     const name = document.createElement("span");
-    name.className = "col-span-5 sm:col-span-3 font-latinRomanCaps truncate";
+    name.className =
+      "min-w-0 font-semibold truncate tracking-tight text-left self-center";
     name.textContent = site.name;
     if (isSearchItem) {
-      name.className += " text-mustard-100"
+      name.className += " text-white"
     }
 
-    const year = document.createElement("span");
-    year.className = "col-span-2 sm:col-span-1 text-right font-latinRoman";
-    year.textContent = site.year;
+    const profession = document.createElement("span");
+    profession.className =
+      "min-w-0 font-ftpMono text-sm text-left truncate self-center tracking-tight";
+    profession.textContent = getSiteProfession(site);
     if (isSearchItem) {
-      year.className += " text-mustard-100"
+      profession.className += " text-white";
     }
 
     const link = document.createElement("a");
     link.href = site.website;
     link.className =
-      "col-span-5 sm:col-span-2 font-latinMonoRegular underline truncate";
+      "min-w-0 font-ftpMono text-sm underline truncate text-left self-center tracking-tight block";
     link.textContent = displayUrl;
     if (isSearchItem) {
-      link.className += " text-mustard-100"
+      link.className += " text-white"
     } else {
-      link.className += " text-mustard-500"
+      link.className += " text-ftp-red"
     }
 
     listItem.appendChild(name);
-    listItem.appendChild(year);
+    listItem.appendChild(profession);
     listItem.appendChild(link);
     webringList.appendChild(listItem);
   });
@@ -83,9 +86,11 @@ function filterWebring(searchTerm) {
   const searchLower = searchTerm.toLowerCase();
   const matchedSiteIndices = [];
   webringData.sites.forEach((site, index) => {
+    const professionSample = getSiteProfession(site).toLowerCase();
     if (
       site.name.toLowerCase().includes(searchLower) ||
       fuzzyMatch(site.website.toLowerCase(), searchLower) ||
+      professionSample.includes(searchLower) ||
       site.year.toString().includes(searchLower)
     ) {
       matchedSiteIndices.push(index);
@@ -124,8 +129,8 @@ let navigateWebring = () => {
   if (!webringData.sites[newIndex]) return;
 
   document.body.innerHTML = `
-  <main class="p-6 min-h-[100vh] w-[100vw] text-black-900">
-    <p class="font-latinMonoCondOblique">redirecting...</p>
+  <main class="p-6 min-h-[100vh] w-[100vw] font-ftpSans antialiased text-black-900">
+    <p class="font-medium italic">redirecting...</p>
   </main>
   `;
   window.location.href = webringData.sites[newIndex].website;

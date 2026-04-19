@@ -4,15 +4,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        latinMonoRegular: "latin-mono-regular, ui-mono",
-        latinMonoCaps: "latin-mono-caps, ui-mono",
-        latinMonoCondOblique:
-          "latin-mono-cond-oblique, latin-mono-regular, ui-mono",
-        latinRoman: "latin-roman, ui-serif",
-        latinRomanCaps: "latin-roman-caps, ui-serif",
-        latinRomanDunhillOblique:
-          "latin-roman-dunhill-oblique, latin-mono-caps, ui-serif",
         lion: "Times New Roman, Times, serif",
+        ftpSans: '"Plus Jakarta Sans", system-ui, sans-serif',
+        ftpMono: '"IBM Plex Mono", ui-monospace, monospace',
       },
       colors: {
         mustard: {
@@ -37,6 +31,11 @@ module.exports = {
         black: {
           900: "#202020",
           800: "#19191B",
+        },
+        ftp: {
+          red: "#CE1126",
+          blue: "#0038A8",
+          gold: "#FCD116",
         },
       },
     },

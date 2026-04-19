@@ -18,8 +18,20 @@ function makeGraph(containerId) {
 
   const nodeRadius = 8;
   const defaultNodeColor = "#B8B8B8";
-  const highlighedNodeColor = "#294B63";
+  const highlighedNodeColor = "#CE1126";
   const defaultEdgeColor = "#E5E5E5";
+
+  function siteMatchesSearch(d, t) {
+    if (!t) return true;
+    const term = t.toLowerCase();
+    const prof = (d.Profession ?? d.profession ?? "Software Developer").toLowerCase();
+    return (
+      d.name.toLowerCase().includes(term) ||
+      d.website.toLowerCase().includes(term) ||
+      prof.includes(term) ||
+      d.year.toString().includes(term)
+    );
+  }
 
   const svg = d3
     .select(`#${containerId}`)
@@ -27,7 +39,7 @@ function makeGraph(containerId) {
     .attr("width", "100%")
     .attr("height", "100%")
     .attr("viewBox", `0 0 ${width} ${height}`)
-    .style("background-color", "#FAF8F8")
+    .style("background-color", "#FFFFFF")
     .style("cursor", "move");
 
   const g = svg.append("g");
@@ -100,11 +112,11 @@ function makeGraph(containerId) {
   // Add labels for nodes
   node
     .append("text")
-    .attr("class", "font-latinMonoCondOblique")
+    .attr("class", "font-ftpSans italic text-xs")
     .attr("dx", 12)
     .attr("dy", 4)
     .text(d => d.website.replace(/^https?:\/\//, ""))
-    .attr("fill", "#4F587C")
+    .attr("fill", "#CE1126")
     .style("font-size", "12px");
 
   simulation.nodes(webringData.sites).on("tick", ticked);
@@ -198,13 +210,10 @@ function makeGraph(containerId) {
 
     if (searchTerm === "") {
       return defaultNodeColor;
-    } else {
-      return d.name.toLowerCase().includes(searchTerm) ||
-        d.year.toString().includes(searchTerm) ||
-        d.website.toLowerCase().includes(searchTerm)
-        ? highlighedNodeColor
-        : defaultNodeColor;
     }
+    return siteMatchesSearch(d, searchTerm)
+      ? highlighedNodeColor
+      : defaultNodeColor;
   }
 
   document.getElementById("search").addEventListener("input", (e) => {
@@ -218,23 +227,14 @@ function makeGraph(containerId) {
       if (searchTerm === "") {
         return defaultNodeColor;
       }
-      const matches =
-        d.name.toLowerCase().includes(searchTerm) ||
-        d.year.toString().includes(searchTerm) ||
-        d.website.toLowerCase().includes(searchTerm);
-      return matches ? highlighedNodeColor : defaultNodeColor;
+      return siteMatchesSearch(d, searchTerm)
+        ? highlighedNodeColor
+        : defaultNodeColor;
     });
 
     const totalNodes = webringData.sites.length;
     const highlightedNodes = searchTerm
-      ? node
-          .filter(
-            (d) =>
-              d.name.toLowerCase().includes(searchTerm) ||
-              d.year.toString().includes(searchTerm) ||
-              d.website.toLowerCase().includes(searchTerm)
-          )
-          .size()
+      ? node.filter((d) => siteMatchesSearch(d, searchTerm)).size()
       : 0;
 
     const statsText = searchTerm
@@ -249,11 +249,8 @@ function makeGraph(containerId) {
     statsBackground.attr("width", textWidth + 20).attr("height", 25);
 
     if (searchTerm) {
-      const matchingNodes = node.filter(
-        (d) =>
-          d.name.toLowerCase().includes(searchTerm) ||
-          d.year.toString().includes(searchTerm) ||
-          d.website.toLowerCase().includes(searchTerm)
+      const matchingNodes = node.filter((d) =>
+        siteMatchesSearch(d, searchTerm)
       );
 
       if (matchingNodes.size() > 0) {
@@ -336,7 +333,7 @@ function makeGraph(containerId) {
 
   const statsDisplay = svg
     .append("text")
-    .attr("class", "font-latinMonoCondOblique italic")
+    .attr("class", "font-ftpSans italic")
     .attr("id", "stats-display")
     .attr("x", 10)
     .attr("y", height - 13)
@@ -346,7 +343,7 @@ function makeGraph(containerId) {
   const statsBackground = svg
     .append("rect")
     .attr("id", "stats-background")
-    .attr("fill", "#4F587C")
+    .attr("fill", "#0038A8")
     .attr("opacity", 0.5)
     .attr("x", 5)
     .attr("y", height - 30)
