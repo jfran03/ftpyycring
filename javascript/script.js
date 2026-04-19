@@ -10,7 +10,7 @@ let logConsoleMessage = () => {
     "font-size: 14px; color: #CE1126; text-decoration: underline;"
   );
 };
-let createWebringList = (matchedSiteIndices) => {
+let createWebringList = (matchedSiteIndices, highlight = false) => {
   const webringList = document.getElementById("webring-list");
   webringList.innerHTML = "";
 
@@ -22,9 +22,11 @@ let createWebringList = (matchedSiteIndices) => {
     const listItem = document.createElement("div");
     listItem.className =
       "grid grid-cols-3 gap-x-4 sm:gap-x-6 items-baseline w-full max-w-full py-1";
-    const isSearchItem =
-      matchedSiteIndices.includes(index) &&
-      matchedSiteIndices.length !== webringData.sites.length;
+    const narrowed =
+      highlight &&
+      (matchedSiteIndices.length < webringData.sites.length ||
+        matchedSiteIndices.length === 1);
+    const isSearchItem = matchedSiteIndices.includes(index) && narrowed;
     if (isSearchItem) {
       listItem.className += " bg-ftp-red";
     }
@@ -73,30 +75,48 @@ let createWebringList = (matchedSiteIndices) => {
     }, 100);
   }
 };
-function handleUrlFragment(searchInput) {
-  const fragment = window.location.hash.slice(1); // Remove the # symbol
-  if (fragment) {
-    searchInput.value = decodeURIComponent(fragment);
-    filterWebring(fragment);
-    const searchEvent = new Event("input");
-    searchInput.dispatchEvent(searchEvent);
+function hashSearchTerm() {
+  const raw = window.location.hash.slice(1);
+  if (!raw) return "";
+  try {
+    const decoded = decodeURIComponent(raw);
+    return decoded.split("?")[0].trim();
+  } catch {
+    return raw.split("?")[0].trim();
   }
 }
+
+function handleUrlFragment(searchInput) {
+  const term = hashSearchTerm();
+  if (!term) return;
+  searchInput.value = term;
+  filterWebring(term);
+}
 function filterWebring(searchTerm) {
-  const searchLower = searchTerm.toLowerCase();
+  const allIndices = webringData.sites.map((_, i) => i);
+  const trimmed = searchTerm.trim();
+  if (!trimmed) {
+    createWebringList(allIndices, false);
+    return;
+  }
+
+  const searchLower = trimmed.toLowerCase();
   const matchedSiteIndices = [];
   webringData.sites.forEach((site, index) => {
     const professionSample = getSiteProfession(site).toLowerCase();
+    const yearMatches =
+      site.year != null &&
+      String(site.year).toLowerCase().includes(searchLower);
     if (
       site.name.toLowerCase().includes(searchLower) ||
       fuzzyMatch(site.website.toLowerCase(), searchLower) ||
       professionSample.includes(searchLower) ||
-      site.year.toString().includes(searchLower)
+      yearMatches
     ) {
       matchedSiteIndices.push(index);
     }
   });
-  createWebringList(matchedSiteIndices);
+  createWebringList(matchedSiteIndices, true);
 }
 let navigateWebring = () => {
   // https://ftp-yyc-webring.vercel.app/#your-site-here?nav=next OR
@@ -144,7 +164,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const mobileInput = document.getElementById("search-mobile");
 
   logConsoleMessage();
-  createWebringList(webringData.sites);
+  const allIndices = webringData.sites.map((_, i) => i);
+  createWebringList(allIndices, false);
   handleUrlFragment(desktopInput);
   handleUrlFragment(mobileInput);
 
@@ -154,9 +175,11 @@ document.addEventListener("DOMContentLoaded", () => {
   mobileInput.addEventListener("input", (e) => {
     filterWebring(e.target.value);
   });
-  window.addEventListener("hashChange", () => {
-    handleUrlFragment(desktopInput);
-    handleUrlFragment(mobileInput);
+  window.addEventListener("hashchange", () => {
+    if (!window.location.hash.includes("?nav=")) {
+      handleUrlFragment(desktopInput);
+      handleUrlFragment(mobileInput);
+    }
   });
   window.addEventListener("hashchange", navigateWebring);
 });
