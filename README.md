@@ -73,6 +73,6 @@ If none of these quite work for you, feel free to make your own.
 
 ## Credits & Inspiration
 
-Forked from Justin and Wilbur's UW CS Webring ([upstream](https://cs.uwatering.com)).
+Forked from Justin and Wilbur's UW CS Webring https://cs.uwatering.com.
 
 Jerome currently maintains the site—open an issue if you spot bugs; we’ll try to respond quickly.
