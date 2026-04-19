@@ -24,7 +24,7 @@
 
 ## Widget template
 
-<img width="150" alt="image" src="https://github.com/user-attachments/assets/66c9e57a-c5ba-4426-b651-b9a37d74e198">
+<img width="150" alt="Webring widget preview (prev / icon / next)" src="./webAssets/widget-template.png">
 
 Since every website is unique, we suggest you add your own flair to the sun. We also know that design is hard, so here are some examples to get you started:
 
