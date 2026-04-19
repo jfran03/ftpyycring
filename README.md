@@ -26,7 +26,7 @@
 
 <img width="150" alt="image" src="https://github.com/user-attachments/assets/66c9e57a-c5ba-4426-b651-b9a37d74e198">
 
-Since every website is unique, we suggest you add your own flair to the lion. We also know that design is hard, so here are some examples to get you started:
+Since every website is unique, we suggest you add your own flair to the sun. We also know that design is hard, so here are some examples to get you started:
 
 #### HTML:
 
@@ -65,6 +65,9 @@ For dark-themed websites, use `icon.white.svg`. Feel free to host the icon local
 - Black: `https://ftp-yyc-webring.vercel.app/icon.black.svg`
 - White: `https://ftp-yyc-webring.vercel.app/icon.white.svg`
 - Red: `https://ftp-yyc-webring.vercel.app/icon.red.svg`
+- Blue: `https://ftp-yyc-webring.vercel.app/icon.blue.svg`
+- Yellow: `https://ftp-yyc-webring.vercel.app/icon.yellow.svg`
+
 
 If none of these quite work for you, feel free to make your own.
 
