@@ -1,4 +1,7 @@
 import { fuzzyMatch, formatUrl, getSiteProfession } from "./helpers.js";
+import { loadWebringData } from "./data.js";
+
+let webringData;
 
 let logConsoleMessage = () => {
   console.log(
@@ -156,7 +159,9 @@ let navigateWebring = () => {
   window.location.href = webringData.sites[newIndex].website;
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  webringData = await loadWebringData();
+
   if (window.location.hash.includes("?nav=")) {
     navigateWebring();
   }

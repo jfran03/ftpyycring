@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&display=swap"
+    rel="stylesheet" />
+  <link href="./css/output.css" rel="stylesheet" />
+
+  <title>Join — FTP-YYC Webring</title>
+  <meta name="description" content="Submit your site to the FTP-YYC Webring." />
+  <link rel="canonical" href="https://ftp-yyc-webring.vercel.app/join" />
+  <link rel="icon" type="image/x-icon" href="./webAssets/favicon.ico" />
+
+  <script src="./javascript/join.js" type="module"></script>
+</head>
+
+<body class="bg-white font-ftpSans antialiased text-black-900">
+  <main class="px-4 py-6 sm:p-6 sm:min-h-[100vh] max-w-3xl mx-auto">
+    <header>
+      <a href="/">
+        <img src="webAssets/ftpyyclogo-nobg.png" alt="Site logo"
+          class="block h-[57px] w-auto max-w-[296px] object-contain object-left" />
+      </a>
+    </header>
+
+    <div class="mt-10">
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Join the FTP-YYC Webring</h1>
+      <p class="mt-3 leading-snug tracking-tight">
+        Verify your membership in the
+        <a class="text-ftp-red underline decoration-ftp-red/80 underline-offset-2 hover:text-burgundy-500"
+          href="https://discord.com/invite/MDXaqpk2Ay" target="_blank" rel="noreferrer">FTP-YYC
+        Discord server</a>, then submit your site. A maintainer will review your submission before it goes live.
+      </p>
+
+      <div id="status-banner" class="mt-6 hidden border-l-4 px-4 py-3 text-sm" role="status"></div>
+
+      <section id="state-loading" class="mt-10" data-state="loading">
+        <p class="font-ftpMono text-sm text-black-900/60">Loading…</p>
+      </section>
+
+      <section id="state-signed-out" class="mt-10 hidden" data-state="signed-out">
+        <p class="leading-snug tracking-tight">
+          Sign in with Discord so we can confirm you're an active member of the server.
+        </p>
+        <a href="/api/auth/discord/start"
+          class="inline-flex items-center gap-2 mt-6 bg-ftp-blue text-white font-semibold px-5 py-3 hover:bg-ftp-blue/90 transition-colors">
+          Sign in with Discord
+        </a>
+        <p class="mt-4 font-ftpMono text-xs text-black-900/60">
+          We request the <code>identify</code> and <code>guilds</code> scopes only. No bot is added to your account, and your Discord data is not stored.
+        </p>
+      </section>
+
+      <section id="state-signed-in" class="mt-10 hidden" data-state="signed-in">
+        <div class="flex items-center justify-between gap-4 flex-wrap">
+          <p class="font-ftpMono text-sm">
+            Signed in as <span id="discord-username" class="font-semibold text-ftp-red"></span>
+          </p>
+          <button id="logout-btn" type="button"
+            class="font-ftpMono text-xs underline text-black-900/60 hover:text-black-900">
+            Sign out
+          </button>
+        </div>
+
+        <form id="submit-form" class="mt-8 flex flex-col gap-5" novalidate>
+          <div class="flex flex-col gap-1">
+            <label for="field-name" class="font-ftpMono text-xs uppercase tracking-[0.15em]">Name</label>
+            <input id="field-name" name="name" type="text" required minlength="2" maxlength="64"
+              pattern="[A-Za-z0-9 \-']+"
+              class="font-ftpMono text-sm px-3 py-2 border border-black-900/20 bg-white focus:border-ftp-blue focus:outline-none focus:ring-1 focus:ring-ftp-blue/40" />
+            <span class="font-ftpMono text-[0.7rem] text-black-900/50">2–64 characters. Letters, numbers, spaces, hyphens, apostrophes.</span>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label for="field-profession" class="font-ftpMono text-xs uppercase tracking-[0.15em]">Profession</label>
+            <input id="field-profession" name="profession" type="text" required minlength="2" maxlength="64"
+              pattern="[A-Za-z0-9 \-]+"
+              class="font-ftpMono text-sm px-3 py-2 border border-black-900/20 bg-white focus:border-ftp-blue focus:outline-none focus:ring-1 focus:ring-ftp-blue/40" />
+            <span class="font-ftpMono text-[0.7rem] text-black-900/50">2–64 characters. Letters, numbers, spaces, hyphens.</span>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label for="field-url" class="font-ftpMono text-xs uppercase tracking-[0.15em]">URL</label>
+            <input id="field-url" name="url" type="url" required placeholder="https://your-site.com"
+              class="font-ftpMono text-sm px-3 py-2 border border-black-900/20 bg-white focus:border-ftp-blue focus:outline-none focus:ring-1 focus:ring-ftp-blue/40" />
+            <span class="font-ftpMono text-[0.7rem] text-black-900/50">Must be reachable over HTTPS.</span>
+          </div>
+
+          <div class="flex items-center gap-4 mt-2">
+            <button type="submit"
+              class="bg-ftp-red text-white font-semibold px-5 py-3 hover:bg-burgundy-500 transition-colors">
+              Submit for review
+            </button>
+            <span id="submit-note" class="font-ftpMono text-xs text-black-900/60"></span>
+          </div>
+        </form>
+      </section>
+
+      <footer class="mt-16 pb-10 font-ftpMono text-xs text-black-900/60">
+        <a href="/" class="underline hover:text-black-900">← Back to webring</a>
+      </footer>
+    </div>
+
+    <div id="ascii-sun-wrap"
+      class="pointer-events-none fixed -top-4 sm:-top-12 inset-x-0 -z-10 flex justify-end select-none">
+      <pre class="inline-block [font-family:Consolas,'Courier_New',monospace] leading-[1.12] text-[0.58rem] sm:text-[0.65rem] sm:leading-[0.78rem] text-mustard-400 opacity-[0.88]">
+                                                                                   ░░░░░░
+                                                                                 ░░░░░░░░░░
+                                                                                ░░░░░░░░░░░░
+                                                                            ░░   ░░░░░░░░░░   ░░
+                                                                         ░░░░░   ░░░░░░░░░░   ░░░░░
+                                                                        ░░░░░░   ░░░░░░░░░░   ░░░░░░
+                                                                        ░░░░░░   ░░░░░░░░░░   ░░░░░░
+                                                                         ░░░░░   ░░░░░░░░░░   ░░░░░
+                                                                         ░░░░░░  ░░░░░░░░░░  ░░░░░░
+                             ░░░░░░░░░   ░░░░░░░░░                        ░░░░░   ░░░░░░░░   ░░░░░                        ░░░░░░░░░   ░░░░░░░░░
+                             ░░░░░░░░░░░  ░░░░░░░░░                        ░░░░░  ░░░░░░░░  ░░░░░                        ░░░░░░░░░  ░░░░░░░░░░░
+                             ░░░░░░░░░░░░░  ░░░░░░░░                       ░░░░░  ░░░░░░░░  ░░░░░                       ░░░░░░░░  ░░░░░░░░░░░░░
+                             ░░░░░░░░░░░░░░░   ░░░░░░░░                    ░░░░░  ░░░░░░░░  ░░░░░                    ░░░░░░░░   ░░░░░░░░░░░░░░░
+                              ░░░░░░░░░░░░░░░░░ ░░░░░░░░                    ░░░░░ ░░░░░░░░ ░░░░░                    ░░░░░░░░ ░░░░░░░░░░░░░░░░░
+                             ░░  ░░░░░░░░░░░░░░░  ░░░░░░░░                  ░░░░░ ░░░░░░░░ ░░░░░                  ░░░░░░░░  ░░░░░░░░░░░░░░░  ░░
+                             ░░░░░   ░░░░░░░░░░░░░░ ░░░░░░░                  ░░░░░░░░░░░░░░░░░░                  ░░░░░░░ ░░░░░░░░░░░░░░   ░░░░░
+                             ░░░░░░░░  ░░░░░░░░░░░░░░ ░░░░░░░                ░░░░░ ░░░░░░ ░░░░░                ░░░░░░░ ░░░░░░░░░░░░░░  ░░░░░░░░
+                             ░░░░░░░░░░░ ░░░░░░░░░░░░░░ ░░░░░░░          ░░░░░░░░░░░░░░░░░░░░░░░░░░          ░░░░░░░ ░░░░░░░░░░░░░░ ░░░░░░░░░░░
+                                ░░░░░░░░░░░ ░░░░░░░░░░░░░ ░░░░░░     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░     ░░░░░░ ░░░░░░░░░░░░░ ░░░░░░░░░░░
+                                    ░░░░░░░░░░░░░░░░░░░░░░░ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ░░░░░░░░░░░░░░░░░░░░░░░
+                                       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                           ░░░░░░░░░ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ░░░░░░░░░
+                                               ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                 ░░░░░░░░░░░░░                   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░                   ░░░░░░░░░░░░░
+              ░░░░░░░░░░░░░░░░░░░░░░░░░░░       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░       ░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+          ░░░░░░░░░░░░░░░░░░       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░       ░░░░░░░░░░░░░░░░░░
+       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+         ░░░░░░░░░░░░░░░░░░░░░░░░░       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░       ░░░░░░░░░░░░░░░░░░░░░░░░░
+                       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                ░░░░░░░░░░░░░░░                  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░                  ░░░░░░░░░░░░░░░
+                  ░░░░░                           ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░                           ░░░░░
+                                                   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                               ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                            ░░░░░░░░░ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ░░░░░░░░░
+                                        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                 ░░░░░░░░░░░ ░░░░░░░░░░░░░░░░░░░   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   ░░░░░░░░░░░░░░░░░░░ ░░░░░░░░░░░
+                             ░░░░░░░░░░░░  ░░░░░░░░░░░░ ░░░░░░░        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        ░░░░░░░ ░░░░░░░░░░░░  ░░░░░░░░░░░░
+                             ░░░░░░░░░  ░░░░░░░░░░░░░░ ░░░░░░░                ░░░░░░░░░░░░░░░░                ░░░░░░░ ░░░░░░░░░░░░░░  ░░░░░░░░░
+                             ░░░░░   ░░░░░░░░░░░░░░ ░░░░░░░                  ░░░░░░░░░░░░░░░░░░                  ░░░░░░░ ░░░░░░░░░░░░░░   ░░░░░
+                             ░░░  ░░░░░░░░░░░░░░░  ░░░░░░░                  ░░░░░ ░░░░░░░░ ░░░░░                  ░░░░░░░  ░░░░░░░░░░░░░░░  ░░░
+                                ░░░░░░░░░░░░░░░  ░░░░░░░░                   ░░░░░ ░░░░░░░░ ░░░░░                   ░░░░░░░░  ░░░░░░░░░░░░░░░
+                             ░░░░░░░░░░░░░░░   ░░░░░░░░                    ░░░░░  ░░░░░░░░  ░░░░░                    ░░░░░░░░   ░░░░░░░░░░░░░░░
+                             ░░░░░░░░░░░░░░  ░░░░░░░░                      ░░░░░  ░░░░░░░░  ░░░░░                      ░░░░░░░░  ░░░░░░░░░░░░░░
+                             ░░░░░░░░░░░░  ░░░░░░░░░                       ░░░░░  ░░░░░░░░  ░░░░░                       ░░░░░░░░░  ░░░░░░░░░░░░
+                             ░░░░░░░░░░  ░░░░░░░░░                        ░░░░░   ░░░░░░░░   ░░░░░                        ░░░░░░░░░  ░░░░░░░░░░
+                                                                          ░░░░░   ░░░░░░░░   ░░░░░
+                                                                         ░░░░░░  ░░░░░░░░░░  ░░░░░░
+                                                                        ░░░░░░   ░░░░░░░░░░   ░░░░░░
+                                                                        ░░░░░░   ░░░░░░░░░░   ░░░░░░
+                                                                        ░░░░░░   ░░░░░░░░░░   ░░░░░░
+                                                                           ░░░   ░░░░░░░░░░   ░░░
+                                                                                ░░░░░░░░░░░░
+                                                                                ░░░░░░░░░░░░
+                                                                                  ░░░░░░░░
+                                                                                     ░░
+      </pre>
+    </div>
+  </main>
+</body>
+
+</html>

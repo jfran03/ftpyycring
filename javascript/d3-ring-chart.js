@@ -1,7 +1,11 @@
+import { loadWebringData } from "./data.js";
+
+let webringData;
 let mobileExists = false,
   desktopExists = false;
 
 function checkIfGraphNeeded() {
+  if (!webringData) return;
   if (window.innerWidth < 640 && !mobileExists) {
     mobileExists = true;
     makeGraph("chart-container-mobile");
@@ -360,5 +364,8 @@ function makeGraph(containerId) {
   statsBackground.attr("width", textWidth + 20).attr("height", 25);
 }
 
-document.addEventListener("DOMContentLoaded", checkIfGraphNeeded);
+document.addEventListener("DOMContentLoaded", async () => {
+  webringData = await loadWebringData();
+  checkIfGraphNeeded();
+});
 window.addEventListener("resize", checkIfGraphNeeded);
