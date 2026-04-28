@@ -31,7 +31,6 @@ function showStatusBanner() {
   banner.className = `mt-6 border-l-4 px-4 py-3 text-sm ${classes}`;
   banner.classList.remove("hidden");
 
-  // Strip status from URL so reloads don't replay the banner.
   const cleanUrl = window.location.pathname + window.location.hash;
   window.history.replaceState({}, "", cleanUrl);
 }
@@ -50,12 +49,110 @@ async function logout() {
   window.location.assign("/join");
 }
 
-function wireFormStub() {
-  const form = document.getElementById("submit-form");
+function clearFieldErrors(form) {
+  form.querySelectorAll("[data-error-for]").forEach((el) => {
+    el.textContent = "";
+    el.classList.add("hidden");
+  });
+}
+
+function setFieldError(form, field, message) {
+  const target = form.querySelector(`[data-error-for="${field}"]`);
+  if (!target) return false;
+  target.textContent = message;
+  target.classList.remove("hidden");
+  return true;
+}
+
+function setSubmitNote(text, isError = false) {
   const note = document.getElementById("submit-note");
-  form.addEventListener("submit", (e) => {
+  note.textContent = text;
+  note.className = isError
+    ? "font-ftpMono text-xs text-ftp-red"
+    : "font-ftpMono text-xs text-black-900/60";
+}
+
+function renderErrors(form, errors) {
+  const globals = [];
+  for (const err of errors ?? []) {
+    if (!setFieldError(form, err.field, err.message)) {
+      globals.push(err.message);
+    }
+  }
+  setSubmitNote(
+    globals.length ? globals.join(" ") : "Please fix the errors above and try again.",
+    true
+  );
+}
+
+function showSuccess(prUrl) {
+  const form = document.getElementById("submit-form");
+  const success = document.getElementById("submit-success");
+  const link = document.getElementById("submit-pr-link");
+  link.href = prUrl;
+  form.classList.add("hidden");
+  success.classList.remove("hidden");
+}
+
+function wireFormSubmit() {
+  const form = document.getElementById("submit-form");
+  const submitBtn = document.getElementById("submit-btn");
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    note.textContent = "Submission endpoint comes online in the next phase.";
+    clearFieldErrors(form);
+    setSubmitNote("Submitting…");
+    submitBtn.disabled = true;
+
+    const formData = new FormData(form);
+    const payload = {
+      name: (formData.get("name") || "").toString().trim(),
+      profession: (formData.get("profession") || "").toString().trim(),
+      url: (formData.get("url") || "").toString().trim(),
+    };
+
+    let res;
+    try {
+      res = await fetch("/api/submit", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+    } catch {
+      submitBtn.disabled = false;
+      setSubmitNote("Network error — please try again.", true);
+      return;
+    }
+
+    if (res.status === 401) {
+      submitBtn.disabled = false;
+      setSubmitNote("Your session expired. Please sign in again.", true);
+      showState("signed-out");
+      return;
+    }
+
+    let body = null;
+    try { body = await res.json(); } catch { /* non-JSON response */ }
+
+    if (res.status === 201 && body?.prUrl) {
+      showSuccess(body.prUrl);
+      return;
+    }
+
+    submitBtn.disabled = false;
+
+    if ((res.status === 400 || res.status === 409) && Array.isArray(body?.errors)) {
+      renderErrors(form, body.errors);
+      return;
+    }
+
+    if (body?.hint) {
+      setSubmitNote(body.hint, true);
+      return;
+    }
+
+    setSubmitNote("Something went wrong. Please try again in a moment.", true);
   });
 }
 
@@ -66,7 +163,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (me?.authenticated) {
     document.getElementById("discord-username").textContent = me.username;
     document.getElementById("logout-btn").addEventListener("click", logout);
-    wireFormStub();
+    wireFormSubmit();
     showState("signed-in");
   } else {
     showState("signed-out");

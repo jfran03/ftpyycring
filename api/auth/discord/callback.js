@@ -1,15 +1,6 @@
 import { exchangeCode, fetchUser, fetchUserGuilds, isInGuild } from "../../lib/discord.js";
 import { signSession } from "../../lib/jwt.js";
-
-function parseCookies(header) {
-  if (!header) return {};
-  return Object.fromEntries(
-    header.split(";").map((c) => {
-      const [k, ...v] = c.trim().split("=");
-      return [k, v.join("=")];
-    })
-  );
-}
+import { parseCookies } from "../../lib/cookies.js";
 
 export default async function handler(req, res) {
   const { code, state } = req.query;

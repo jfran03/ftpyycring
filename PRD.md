@@ -38,24 +38,24 @@ Public form page and Discord guild membership verification. No submission yet.
 
 ---
 
-## Phase 2 — `POST /api/submit` + GitHub PR Creation
+## Phase 2 — `POST /api/submit` + GitHub PR Creation ✅
 
 Wire the form to actually create a PR on the submitter's behalf.
 
-- [ ] `api/lib/validation.js` — validate `name`, `profession`, `url` per field rules
-- [ ] `api/lib/url.js` — `formatUrl` / `isLooseDuplicate` (shared normalisation, mirrors `javascript/helpers.js`)
-- [ ] `api/lib/github.js` — `getMainSha`, `getMembersFile`, `createBranch`, `commitMembersUpdate`, `openPR`, `findOpenPRsByUrl`, `findOpenPRsByDiscordUser`
-- [ ] `api/submit.js` — POST handler:
-  - Read + validate JWT from `ftp_session` cookie (401 on miss/invalid)
+- [x] `api/lib/validation.js` — validate `name`, `profession`, `url` per field rules
+- [x] `api/lib/url.js` — `formatUrl` / `isLooseDuplicate` (shared normalisation, mirrors `javascript/helpers.js`)
+- [x] `api/lib/github.js` — `getMainSha`, `getMembersFile`, `createBranch`, `commitMembersUpdate`, `openPR`, `findOpenPRsByUrl`, `findOpenPRsByDiscordUser`
+- [x] `api/submit.js` — POST handler:
+  - Read + validate JWT from `ftp_session` cookie (401 on miss/invalid); JWT `sub` = Discord user ID (snowflake), `username` = Discord handle
   - Validate request body fields (400 with field-level errors)
   - Run four checks in parallel via `Promise.allSettled`:
     1. Duplicate URL — scan `data/members.json` in repo using `isLooseDuplicate`
-    2. Open PR check — search GitHub for open PRs with the same URL in body or branch name
-    3. URL reachability — HEAD request with 3 s `AbortController` timeout, require 2xx
-    4. Discord user check — search GitHub open PRs for any PR whose body contains this Discord user ID; reject 409 if one exists (one account = one PR, period)
+    2. Open PR check — search GitHub for open PRs whose body includes the same normalized URL string
+    3. URL reachability — HEAD, then GET fallback if needed; 3 s timeout; require 2xx
+    4. One open PR per Discord account — GitHub search for open PRs whose body contains the submitter's **Discord user ID** (same value as JWT `sub`, also shown in the PR table so maintainers can read it); reject 409 if one exists
   - Aggregate all failures into one response (400 / 409)
   - On pass: create branch → patch `data/members.json` → commit → open PR with template body → return `{ prUrl }` 201
-- [ ] Update `javascript/join.js` — replace form stub with real `fetch('/api/submit', { credentials: 'same-origin' })`, show PR link on success and field errors on failure
+- [x] Update `javascript/join.js` — `fetch('/api/submit', { credentials: 'same-origin' })`, show PR link on success and field errors on failure
 
 **PR body template:**
 ```
@@ -66,11 +66,14 @@ Wire the form to actually create a PR on the submitter's behalf.
 | Profession | {profession} |
 | URL | {url} |
 | Discord | {discord_username} |
+| Discord user ID | {discord_user_id} |
 | Submitted | {ISO 8601 timestamp} |
 ---
 *This PR was created automatically via the webring submission form.*
 *A human review is required before merging.*
 ```
+
+The **Discord user ID** row is the stable identifier (Discord snowflake from OAuth). It is visible to maintainers in every PR and is what `findOpenPRsByDiscordUser` matches via GitHub code search (`"{id}" in:body`).
 
 **Branch naming:** `webring/add-{sanitized-name}-{timestamp}`  
 **Commit message:** `add: {name} to webring`
