@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&display=swap"
+    rel="stylesheet" />
+  <link href="./css/output.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+  <style>
+    pre code.hljs { background: transparent; padding: 0; }
+    .code-scroll-wrap pre { min-width: 0; max-width: 100%; }
+    /* Boost contrast for chars that blend into #0f1b2d */
+    .hljs                 { color: #c0c8d8; }
+    .hljs-tag             { color: #e06c75; }
+    .hljs-name            { color: #e06c75; }
+    .hljs-attr            { color: #d19a66; }
+    .hljs-string          { color: #98c379; }
+    .hljs-comment         { color: #8b95a8; }
+    .hljs-punctuation     { color: #c0c8d8; }
+  </style>
+
+  <title>Join — FTP-YYC Webring</title>
+  <meta name="description" content="Submit your site to the FTP-YYC Webring." />
+  <link rel="canonical" href="https://ftp-yyc-webring.vercel.app/join" />
+  <link rel="icon" type="image/x-icon" href="./webAssets/favicon.ico" />
+
+  <script src="./javascript/join.js" type="module"></script>
+</head>
+
+<body class="bg-white font-ftpSans antialiased text-black-900">
+  <main class="px-4 py-6 sm:p-6 sm:min-h-[100vh] max-w-3xl mx-auto">
+    <header>
+      <a href="/">
+        <img src="webAssets/ftpyyclogo-nobg.png" alt="Site logo"
+          class="block h-[57px] w-auto max-w-[296px] object-contain object-left" />
+      </a>
+    </header>
+
+    <div class="mt-10">
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">Join the FTP-YYC Webring</h1>
+      <p class="mt-3 leading-snug tracking-tight">
+        Verify your membership in the
+        <a class="text-ftp-red underline decoration-ftp-red/80 underline-offset-2 hover:text-burgundy-500"
+          href="https://discord.com/invite/MDXaqpk2Ay" target="_blank" rel="noreferrer">FTP-YYC
+        Discord server</a>, then submit your site. A maintainer will review your submission before it goes live.
+      </p>
+
+      <div id="status-banner" class="mt-6 hidden border-l-4 px-4 py-3 text-sm" role="status"></div>
+
+      <section id="state-loading" class="mt-10" data-state="loading">
+        <p class="font-ftpMono text-sm text-black-900/60">Loading…</p>
+      </section>
+
+      <section id="state-signed-out" class="mt-10 hidden" data-state="signed-out">
+        <h2 class="text-lg font-semibold tracking-tight">Requirements</h2>
+        <ul class="mt-4 list-disc pl-5 text-sm leading-relaxed">
+          <li>
+            A website that can be reached over HTTPS
+          </li>
+          <li>
+            A widget that allows a visitor to traverse the webring
+          </li>
+          <li>
+            You are in the
+            <a class="text-ftp-red underline decoration-ftp-red/80 underline-offset-2 hover:text-burgundy-500"
+              href="https://discord.com/invite/MDXaqpk2Ay" target="_blank" rel="noreferrer">FTP-YYC
+            Discord server</a>
+          </li>
+        </ul>
+
+        <h2 class="mt-6 text-lg font-semibold tracking-tight">Widget Template</h2>
+        <img width="150" alt="Webring widget preview (prev / icon / next)" src="./webAssets/widget-template.png"
+          class="mt-4 border border-black-900/10 bg-white p-1" />
+        <p class="mt-4 leading-snug tracking-tight text-sm">
+          Since every website is unique, we suggest you add your own flair to the sun. We also know that design is hard, so here are some examples to get you started:
+        </p>
+
+        <div class="flex items-center justify-between mt-4">
+          <h2 class="text-lg font-semibold tracking-tight">HTML</h2>
+          <button type="button" data-copy-target="widget-html-code"
+            style="font-family:inherit;font-size:0.7rem;font-weight:600;letter-spacing:0.08em;padding:0.25rem 0.5rem;border:1px solid #64748b;border-radius:4px;background:#1e293b;color:#94a3b8;cursor:pointer;"
+            aria-label="Copy HTML snippet">
+            <span class="copy-label">COPY</span>
+          </button>
+        </div>
+        <div class="mt-2 rounded border border-black-900"
+          style="background-color: #0f1b2d; width: 100%; min-width: 0; overflow: hidden;">
+          <div style="overflow-x: auto; width: 100%;">
+          <pre style="margin:0; padding: 0.75rem; font-size: 0.75rem; line-height: 1.625; white-space: pre; background: transparent;" class="text-left font-ftpMono"><code id="widget-html-code">&lt;div style="display: flex; align-items: center; gap: 8px;"&gt;
+    &lt;a href="https://ftp-yyc-webring.vercel.app/#your-site-here?nav=prev"&gt;←&lt;/a&gt;
+    &lt;a href="https://ftp-yyc-webring.vercel.app/#your-site-here" target="_blank"&gt;
+        &lt;img src="https://ftp-yyc-webring.vercel.app/icon.black.svg" alt="FTP-YYC Webring" style="width: 24px; height: auto; opacity: 0.8;"/&gt;
+    &lt;/a&gt;
+    &lt;a href="https://ftp-yyc-webring.vercel.app/#your-site-here?nav=next"&gt;→&lt;/a&gt;
+&lt;/div&gt;
+&lt;!-- Replace 'your-site-here' with your actual site URL --&gt;</code></pre>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between mt-6">
+          <h2 class="text-lg font-semibold tracking-tight">JSX</h2>
+          <button type="button" data-copy-target="widget-jsx-code"
+            style="font-family:inherit;font-size:0.7rem;font-weight:600;letter-spacing:0.08em;padding:0.25rem 0.5rem;border:1px solid #64748b;border-radius:4px;background:#1e293b;color:#94a3b8;cursor:pointer;"
+            aria-label="Copy JSX snippet">
+            <span class="copy-label">COPY</span>
+          </button>
+        </div>
+        <div class="mt-2 rounded border border-black-900"
+          style="background-color: #0f1b2d; width: 100%; min-width: 0; overflow: hidden;">
+          <div style="overflow-x: auto; width: 100%;">
+          <pre style="margin:0; padding: 0.75rem; font-size: 0.75rem; line-height: 1.625; white-space: pre; background: transparent;" class="text-left font-ftpMono"><code id="widget-jsx-code">&lt;div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}&gt;
+    &lt;a href='https://ftp-yyc-webring.vercel.app/#your-site-here?nav=prev'&gt;←&lt;/a&gt;
+    &lt;a href='https://ftp-yyc-webring.vercel.app/#your-site-here' target='_blank'&gt;
+        &lt;img
+            src='https://ftp-yyc-webring.vercel.app/icon.black.svg'
+            alt='FTP-YYC Webring'
+            style={{ width: '24px', height: 'auto', opacity: 0.8 }}
+        /&gt;
+    &lt;/a&gt;
+    &lt;a href='https://ftp-yyc-webring.vercel.app/#your-site-here?nav=next'&gt;→&lt;/a&gt;
+&lt;/div&gt;
+// Replace 'your-site-here' with your actual site URL</code></pre>
+          </div>
+        </div>
+
+        <p class="mt-4 leading-snug tracking-tight text-sm">
+          For dark-themed websites, use <code>icon.white.svg</code>. Feel free to host the icon locally if you encounter HTTPS issues / styling issues.
+        </p>
+
+        <h2 class="mt-6 text-lg font-semibold tracking-tight">Alternative Icons Sources</h2>
+        <div class="mt-2 rounded border border-black-900"
+          style="background-color: #0f1b2d; width: 100%; min-width: 0; overflow: hidden;">
+          <pre style="margin:0; padding: 0.75rem; font-size: 0.75rem; line-height: 1.9; white-space: pre; background: transparent; color: #c0c8d8;" class="font-ftpMono"><span style="color:#8b95a8;"># black</span>
+https://ftp-yyc-webring.vercel.app/icon.black.svg
+<span style="color:#8b95a8;"># white</span>
+https://ftp-yyc-webring.vercel.app/icon.white.svg
+<span style="color:#8b95a8;"># red</span>
+https://ftp-yyc-webring.vercel.app/icon.red.svg
+<span style="color:#8b95a8;"># blue</span>
+https://ftp-yyc-webring.vercel.app/icon.blue.svg
+<span style="color:#8b95a8;"># yellow</span>
+https://ftp-yyc-webring.vercel.app/icon.yellow.svg</pre>
+        </div>
+        <p class="mt-4 leading-snug tracking-tight text-sm">
+          If none of these quite work for you, feel free to make your own.
+        </p>
+
+        <h2 class="mt-6 text-lg font-semibold tracking-tight">Ready to join?</h2>
+        <a href="/api/auth/discord/start" class="mt-6"
+          style="display:inline-flex;align-items:center;gap:10px;background:#5865F2;color:#fff;font-weight:600;font-size:0.95rem;padding:0.65rem 1.25rem;border-radius:4px;text-decoration:none;transition:background 0.15s;"
+          onmouseover="this.style.background='#4752c4'" onmouseout="this.style.background='#5865F2'">
+          <svg style="width:22px;height:22px;flex-shrink:0;" viewBox="0 0 127.14 96.36" fill="#fff" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.1,53,91.08,65.69,84.69,65.69Z"/>
+          </svg>
+          Sign in with Discord
+        </a>
+        <p class="mt-4 font-ftpMono text-xs text-black-900/60">
+          We request the <code>identify</code> and <code>guilds</code> scopes only. No bot is added to your account, and your Discord data is not stored.
+        </p>
+      </section>
+
+      <section id="state-signed-in" class="mt-10 hidden" data-state="signed-in">
+        <div class="flex items-center justify-between gap-4 flex-wrap">
+          <p class="font-ftpMono text-sm">
+            Signed in as <span id="discord-username" class="font-semibold text-ftp-red"></span>
+          </p>
+          <button id="logout-btn" type="button"
+            class="font-ftpMono text-xs underline text-black-900/60 hover:text-black-900">
+            Sign out
+          </button>
+        </div>
+
+        <form id="submit-form" class="mt-8 flex flex-col gap-5" novalidate>
+          <div class="flex flex-col gap-1">
+            <label for="field-name" class="font-ftpMono text-xs uppercase tracking-[0.15em]">Name</label>
+            <input id="field-name" name="name" type="text" required minlength="2" maxlength="64"
+              pattern="[A-Za-z0-9 \-']+"
+              class="font-ftpMono text-sm px-3 py-2 border border-black-900/20 bg-white focus:border-ftp-blue focus:outline-none focus:ring-1 focus:ring-ftp-blue/40" />
+            <span class="font-ftpMono text-[0.7rem] text-black-900/50">2–64 characters. Letters, numbers, spaces, hyphens, apostrophes.</span>
+            <span data-error-for="name" class="font-ftpMono text-[0.7rem] text-ftp-red hidden"></span>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label for="field-profession" class="font-ftpMono text-xs uppercase tracking-[0.15em]">Profession</label>
+            <input id="field-profession" name="profession" type="text" required minlength="2" maxlength="64"
+              pattern="[A-Za-z0-9 \-]+"
+              class="font-ftpMono text-sm px-3 py-2 border border-black-900/20 bg-white focus:border-ftp-blue focus:outline-none focus:ring-1 focus:ring-ftp-blue/40" />
+            <span class="font-ftpMono text-[0.7rem] text-black-900/50">2–64 characters. Letters, numbers, spaces, hyphens.</span>
+            <span data-error-for="profession" class="font-ftpMono text-[0.7rem] text-ftp-red hidden"></span>
+          </div>
+
+          <div class="flex flex-col gap-1">
+            <label for="field-url" class="font-ftpMono text-xs uppercase tracking-[0.15em]">URL</label>
+            <input id="field-url" name="url" type="url" required placeholder="https://your-site.com"
+              class="font-ftpMono text-sm px-3 py-2 border border-black-900/20 bg-white focus:border-ftp-blue focus:outline-none focus:ring-1 focus:ring-ftp-blue/40" />
+            <span class="font-ftpMono text-[0.7rem] text-black-900/50">Must be reachable over HTTPS.</span>
+            <span data-error-for="url" class="font-ftpMono text-[0.7rem] text-ftp-red hidden"></span>
+          </div>
+
+          <div class="flex items-center gap-4 mt-2">
+            <button id="submit-btn" type="submit"
+              class="bg-ftp-red text-white font-semibold px-5 py-3 hover:bg-burgundy-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+              Submit for review
+            </button>
+            <span id="submit-note" class="font-ftpMono text-xs text-black-900/60"></span>
+          </div>
+        </form>
+
+        <div id="submit-success" class="mt-8 hidden border-l-4 border-ftp-blue bg-ftp-blue/5 px-4 py-4">
+          <p class="font-semibold text-ftp-blue">Submitted!</p>
+          <p class="mt-2 text-sm leading-snug">
+            Your pull request has been opened. A maintainer will review it shortly — you'll see your site on the ring once it's merged.
+          </p>
+          <p class="mt-3 font-ftpMono text-xs">
+            <a id="submit-pr-link" href="#" target="_blank" rel="noreferrer"
+              class="underline text-ftp-blue hover:text-burgundy-500">View your pull request →</a>
+          </p>
+        </div>
+      </section>
+
+      <footer class="mt-16 pb-10 font-ftpMono text-xs text-black-900/60">
+        <a href="/" class="underline hover:text-black-900">Back to webring</a>
+      </footer>
+    </div>
+
+    <div id="ascii-sun-wrap"
+      class="pointer-events-none fixed -top-4 sm:-top-12 inset-x-0 -z-10 flex justify-end select-none">
+      <pre class="inline-block [font-family:Consolas,'Courier_New',monospace] leading-[1.12] text-[0.58rem] sm:text-[0.65rem] sm:leading-[0.78rem] text-mustard-400 opacity-[0.88]">
+                                                                                   ░░░░░░
+                                                                                 ░░░░░░░░░░
+                                                                                ░░░░░░░░░░░░
+                                                                            ░░   ░░░░░░░░░░   ░░
+                                                                         ░░░░░   ░░░░░░░░░░   ░░░░░
+                                                                        ░░░░░░   ░░░░░░░░░░   ░░░░░░
+                                                                        ░░░░░░   ░░░░░░░░░░   ░░░░░░
+                                                                         ░░░░░   ░░░░░░░░░░   ░░░░░
+                                                                         ░░░░░░  ░░░░░░░░░░  ░░░░░░
+                             ░░░░░░░░░   ░░░░░░░░░                        ░░░░░   ░░░░░░░░   ░░░░░                        ░░░░░░░░░   ░░░░░░░░░
+                             ░░░░░░░░░░░  ░░░░░░░░░                        ░░░░░  ░░░░░░░░  ░░░░░                        ░░░░░░░░░  ░░░░░░░░░░░
+                             ░░░░░░░░░░░░░  ░░░░░░░░                       ░░░░░  ░░░░░░░░  ░░░░░                       ░░░░░░░░  ░░░░░░░░░░░░░
+                             ░░░░░░░░░░░░░░░   ░░░░░░░░                    ░░░░░  ░░░░░░░░  ░░░░░                    ░░░░░░░░   ░░░░░░░░░░░░░░░
+                              ░░░░░░░░░░░░░░░░░ ░░░░░░░░                    ░░░░░ ░░░░░░░░ ░░░░░                    ░░░░░░░░ ░░░░░░░░░░░░░░░░░
+                             ░░  ░░░░░░░░░░░░░░░  ░░░░░░░░                  ░░░░░ ░░░░░░░░ ░░░░░                  ░░░░░░░░  ░░░░░░░░░░░░░░░  ░░
+                             ░░░░░   ░░░░░░░░░░░░░░ ░░░░░░░                  ░░░░░░░░░░░░░░░░░░                  ░░░░░░░ ░░░░░░░░░░░░░░   ░░░░░
+                             ░░░░░░░░  ░░░░░░░░░░░░░░ ░░░░░░░                ░░░░░ ░░░░░░ ░░░░░                ░░░░░░░ ░░░░░░░░░░░░░░  ░░░░░░░░
+                             ░░░░░░░░░░░ ░░░░░░░░░░░░░░ ░░░░░░░          ░░░░░░░░░░░░░░░░░░░░░░░░░░          ░░░░░░░ ░░░░░░░░░░░░░░ ░░░░░░░░░░░
+                                ░░░░░░░░░░░ ░░░░░░░░░░░░░ ░░░░░░     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░     ░░░░░░ ░░░░░░░░░░░░░ ░░░░░░░░░░░
+                                    ░░░░░░░░░░░░░░░░░░░░░░░ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ░░░░░░░░░░░░░░░░░░░░░░░
+                                       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                           ░░░░░░░░░ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ░░░░░░░░░
+                                               ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                 ░░░░░░░░░░░░░                   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░                   ░░░░░░░░░░░░░
+              ░░░░░░░░░░░░░░░░░░░░░░░░░░░       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░       ░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+          ░░░░░░░░░░░░░░░░░░       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░       ░░░░░░░░░░░░░░░░░░
+       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+      ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+         ░░░░░░░░░░░░░░░░░░░░░░░░░       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░       ░░░░░░░░░░░░░░░░░░░░░░░░░
+                       ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+              ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                ░░░░░░░░░░░░░░░                  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░                  ░░░░░░░░░░░░░░░
+                  ░░░░░                           ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░                           ░░░░░
+                                                   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                                    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                               ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                            ░░░░░░░░░ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ ░░░░░░░░░
+                                        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+                                 ░░░░░░░░░░░ ░░░░░░░░░░░░░░░░░░░   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░   ░░░░░░░░░░░░░░░░░░░ ░░░░░░░░░░░
+                             ░░░░░░░░░░░░  ░░░░░░░░░░░░ ░░░░░░░        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░        ░░░░░░░ ░░░░░░░░░░░░  ░░░░░░░░░░░░
+                             ░░░░░░░░░  ░░░░░░░░░░░░░░ ░░░░░░░                ░░░░░░░░░░░░░░░░                ░░░░░░░ ░░░░░░░░░░░░░░  ░░░░░░░░░
+                             ░░░░░   ░░░░░░░░░░░░░░ ░░░░░░░                  ░░░░░░░░░░░░░░░░░░                  ░░░░░░░ ░░░░░░░░░░░░░░   ░░░░░
+                             ░░░  ░░░░░░░░░░░░░░░  ░░░░░░░                  ░░░░░ ░░░░░░░░ ░░░░░                  ░░░░░░░  ░░░░░░░░░░░░░░░  ░░░
+                                ░░░░░░░░░░░░░░░  ░░░░░░░░                   ░░░░░ ░░░░░░░░ ░░░░░                   ░░░░░░░░  ░░░░░░░░░░░░░░░
+                             ░░░░░░░░░░░░░░░   ░░░░░░░░                    ░░░░░  ░░░░░░░░  ░░░░░                    ░░░░░░░░   ░░░░░░░░░░░░░░░
+                             ░░░░░░░░░░░░░░  ░░░░░░░░                      ░░░░░  ░░░░░░░░  ░░░░░                      ░░░░░░░░  ░░░░░░░░░░░░░░
+                             ░░░░░░░░░░░░  ░░░░░░░░░                       ░░░░░  ░░░░░░░░  ░░░░░                       ░░░░░░░░░  ░░░░░░░░░░░░
+                             ░░░░░░░░░░  ░░░░░░░░░                        ░░░░░   ░░░░░░░░   ░░░░░                        ░░░░░░░░░  ░░░░░░░░░░
+                                                                          ░░░░░   ░░░░░░░░   ░░░░░
+                                                                         ░░░░░░  ░░░░░░░░░░  ░░░░░░
+                                                                        ░░░░░░   ░░░░░░░░░░   ░░░░░░
+                                                                        ░░░░░░   ░░░░░░░░░░   ░░░░░░
+                                                                        ░░░░░░   ░░░░░░░░░░   ░░░░░░
+                                                                           ░░░   ░░░░░░░░░░   ░░░
+                                                                                ░░░░░░░░░░░░
+                                                                                ░░░░░░░░░░░░
+                                                                                  ░░░░░░░░
+                                                                                     ░░
+      </pre>
+    </div>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>
+    (function () {
+      var htmlEl = document.getElementById('widget-html-code');
+      var jsxEl = document.getElementById('widget-jsx-code');
+      if (htmlEl) {
+        htmlEl.innerHTML = hljs.highlight(htmlEl.textContent, { language: 'xml' }).value;
+      }
+      if (jsxEl) {
+        var highlighted = hljs.highlight(jsxEl.textContent, { language: 'xml' }).value;
+        highlighted = highlighted.replace(
+          /(\/\/ Replace[^\n]*)/,
+          '<span class="hljs-comment">$1</span>'
+        );
+        jsxEl.innerHTML = highlighted;
+      }
+    })();
+  </script>
+</body>
+
+</html>

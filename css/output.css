@@ -637,6 +637,11 @@ video {
   z-index: 10;
 }
 
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .mb-24 {
   margin-bottom: 6rem;
 }
@@ -657,8 +662,16 @@ video {
   margin-top: 0.5rem;
 }
 
+.mt-3 {
+  margin-top: 0.75rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
 }
 
 .mt-8 {
@@ -675,6 +688,14 @@ video {
 
 .flex {
   display: flex;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+.table {
+  display: table;
 }
 
 .grid {
@@ -721,6 +742,10 @@ video {
   min-width: 0px;
 }
 
+.max-w-3xl {
+  max-width: 48rem;
+}
+
 .max-w-\[296px\] {
   max-width: 296px;
 }
@@ -751,6 +776,10 @@ video {
   flex-direction: column;
 }
 
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
 .items-center {
   align-items: center;
 }
@@ -765,6 +794,22 @@ video {
 
 .justify-between {
   justify-content: space-between;
+}
+
+.gap-1 {
+  gap: 0.25rem;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-5 {
+  gap: 1.25rem;
 }
 
 .gap-x-4 {
@@ -818,6 +863,10 @@ video {
   border-width: 1px;
 }
 
+.border-l-4 {
+  border-left-width: 4px;
+}
+
 .border-t {
   border-top-width: 1px;
 }
@@ -830,9 +879,36 @@ video {
   border-color: rgb(32 32 32 / 0.15);
 }
 
+.border-black-900\/20 {
+  border-color: rgb(32 32 32 / 0.2);
+}
+
+.border-ftp-blue {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 56 168 / var(--tw-border-opacity, 1));
+}
+
+.border-ftp-red {
+  --tw-border-opacity: 1;
+  border-color: rgb(206 17 38 / var(--tw-border-opacity, 1));
+}
+
+.bg-ftp-blue {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 56 168 / var(--tw-bg-opacity, 1));
+}
+
+.bg-ftp-blue\/5 {
+  background-color: rgb(0 56 168 / 0.05);
+}
+
 .bg-ftp-red {
   --tw-bg-opacity: 1;
   background-color: rgb(206 17 38 / var(--tw-bg-opacity, 1));
+}
+
+.bg-ftp-red\/5 {
+  background-color: rgb(206 17 38 / 0.05);
 }
 
 .bg-white {
@@ -859,9 +935,19 @@ video {
   padding-right: 0.5rem;
 }
 
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
+}
+
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .py-1 {
@@ -874,9 +960,18 @@ video {
   padding-bottom: 0.5rem;
 }
 
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
 .py-6 {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+}
+
+.pb-10 {
+  padding-bottom: 2.5rem;
 }
 
 .pb-3 {
@@ -899,12 +994,21 @@ video {
   font-family: "Plus Jakarta Sans", system-ui, sans-serif;
 }
 
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
 .text-\[0\.58rem\] {
   font-size: 0.58rem;
 }
 
 .text-\[0\.68rem\] {
   font-size: 0.68rem;
+}
+
+.text-\[0\.7rem\] {
+  font-size: 0.7rem;
 }
 
 .text-sm {
@@ -915,6 +1019,10 @@ video {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 .font-extrabold {
@@ -974,6 +1082,19 @@ video {
   color: rgb(32 32 32 / var(--tw-text-opacity, 1));
 }
 
+.text-black-900\/50 {
+  color: rgb(32 32 32 / 0.5);
+}
+
+.text-black-900\/60 {
+  color: rgb(32 32 32 / 0.6);
+}
+
+.text-ftp-blue {
+  --tw-text-opacity: 1;
+  color: rgb(0 56 168 / var(--tw-text-opacity, 1));
+}
+
 .text-ftp-red {
   --tw-text-opacity: 1;
   color: rgb(206 17 38 / var(--tw-text-opacity, 1));
@@ -1026,8 +1147,28 @@ video {
   transition-duration: 150ms;
 }
 
+.transition-colors {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 .\[font-family\:Consolas\2c \'Courier_New\'\2c monospace\] {
   font-family: Consolas,'Courier New',monospace;
+}
+
+.hover\:bg-burgundy-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(181 40 40 / var(--tw-bg-opacity, 1));
+}
+
+.hover\:bg-ftp-blue\/90:hover {
+  background-color: rgb(0 56 168 / 0.9);
+}
+
+.hover\:text-black-900:hover {
+  --tw-text-opacity: 1;
+  color: rgb(32 32 32 / var(--tw-text-opacity, 1));
 }
 
 .hover\:text-burgundy-500:hover {
@@ -1095,6 +1236,11 @@ video {
 
   .sm\:p-6 {
     padding: 1.5rem;
+  }
+
+  .sm\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
 
   .sm\:text-\[0\.65rem\] {
