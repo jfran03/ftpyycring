@@ -4,6 +4,11 @@
       "name": "Jerome Francisco",
       "Profession": "Software Developer Student",
       "website": "https://jeromefrancisco.com"
+    },
+    {
+      "name": "test person 1234",
+      "Profession": "goose farmer",
+      "website": "https://discord.com"
     }
   ]
 }
