@@ -49,6 +49,36 @@ async function logout() {
   window.location.assign("/join");
 }
 
+function wireSnippetCopyButtons() {
+  const buttons = document.querySelectorAll("[data-copy-target]");
+  buttons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      const targetId = button.getAttribute("data-copy-target");
+      const codeEl = targetId ? document.getElementById(targetId) : null;
+      if (!codeEl) return;
+
+      const label = button.querySelector(".copy-label");
+
+      try {
+        await navigator.clipboard.writeText(codeEl.textContent || "");
+        if (label) label.textContent = "COPIED";
+        button.style.color = "#6ee7b7";
+        button.style.borderColor = "#6ee7b7";
+      } catch {
+        if (label) label.textContent = "FAILED";
+        button.style.color = "#fca5a5";
+        button.style.borderColor = "#fca5a5";
+      }
+
+      window.setTimeout(() => {
+        if (label) label.textContent = "COPY";
+        button.style.color = "#94a3b8";
+        button.style.borderColor = "#64748b";
+      }, 1200);
+    });
+  });
+}
+
 function clearFieldErrors(form) {
   form.querySelectorAll("[data-error-for]").forEach((el) => {
     el.textContent = "";
@@ -158,6 +188,7 @@ function wireFormSubmit() {
 
 document.addEventListener("DOMContentLoaded", async () => {
   showStatusBanner();
+  wireSnippetCopyButtons();
 
   const me = await fetchMe();
   if (me?.authenticated) {

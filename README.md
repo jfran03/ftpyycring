@@ -11,68 +11,10 @@
 
 ## Joining the Webring
 
-1. Add the webring widget to your website HTML ([template below](#widget-template)). Generally, you should add it to the footer.
-2. Fork this repo and add your information to the **BOTTOM** of the `sites` array in `data/members.json` following this format:
-   ```json
-   {
-     "name": "Your Name",
-     "Profession": "Your Profession",
-     "website": "https://your-website.com"
-   }
-   ```
-3. Submit a Pull Request! We'll try to review as fast as we can.
-
-## Widget template
-
-<img width="150" alt="Webring widget preview (prev / icon / next)" src="./webAssets/widget-template.png">
-
-Since every website is unique, we suggest you add your own flair to the sun. We also know that design is hard, so here are some examples to get you started:
-
-#### HTML:
-
-```html
-<div style="display: flex; align-items: center; gap: 8px;">
-    <a href="https://ftp-yyc-webring.vercel.app/#your-site-here?nav=prev">←</a>
-    <a href="https://ftp-yyc-webring.vercel.app/#your-site-here" target="_blank">
-        <img src="https://ftp-yyc-webring.vercel.app/icon.black.svg" alt="FTP-YYC Webring" style="width: 24px; height: auto; opacity: 0.8;"/>
-    </a>
-    <a href="https://ftp-yyc-webring.vercel.app/#your-site-here?nav=next">→</a>
-</div>
-<!-- Replace 'your-site-here' with your actual site URL -->
-```
-
-#### JSX:
-
-```jsx
-<div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-    <a href='https://ftp-yyc-webring.vercel.app/#your-site-here?nav=prev'>←</a>
-    <a href='https://ftp-yyc-webring.vercel.app/#your-site-here' target='_blank'>
-        <img
-            src='https://ftp-yyc-webring.vercel.app/icon.black.svg'
-            alt='FTP-YYC Webring'
-            style={{ width: '24px', height: 'auto', opacity: 0.8 }}
-        />
-    </a>
-    <a href='https://ftp-yyc-webring.vercel.app/#your-site-here?nav=next'>→</a>
-</div>
-// Replace 'your-site-here' with your actual site URL
-```
-
-For dark-themed websites, use `icon.white.svg`. Feel free to host the icon locally if you encounter HTTPS issues / styling issues.
-
-## Alternative Icons Sources
-
-- Black: `https://ftp-yyc-webring.vercel.app/icon.black.svg`
-- White: `https://ftp-yyc-webring.vercel.app/icon.white.svg`
-- Red: `https://ftp-yyc-webring.vercel.app/icon.red.svg`
-- Blue: `https://ftp-yyc-webring.vercel.app/icon.blue.svg`
-- Yellow: `https://ftp-yyc-webring.vercel.app/icon.yellow.svg`
-
-
-If none of these quite work for you, feel free to make your own.
+Visit **[https://ftp-yyc-webring.vercel.app/join](https://ftp-yyc-webring.vercel.app/join)** to submit your site. The page will walk you through verifying your FTP-YYC Discord membership and filling out the form — no manual PR needed.
 
 ## Credits & Inspiration
 
 Forked from Justin and Wilbur's UW CS Webring https://cs.uwatering.com.
 
-Jerome currently maintains the site—open an issue if you spot bugs; we’ll try to respond quickly.
+Jerome currently maintains the site, open an issue if you spot bugs; we’ll try to respond quickly.

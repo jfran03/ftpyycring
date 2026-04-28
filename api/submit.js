@@ -2,6 +2,7 @@ import { verifySession } from "./lib/jwt.js";
 import { parseCookies } from "./lib/cookies.js";
 import { validateSubmission } from "./lib/validation.js";
 import { formatUrl, isLooseDuplicate, slugifyName } from "./lib/url.js";
+import { getBlockedHostMatch } from "./lib/blocklist.js";
 import {
   getMainSha,
   getMembersFile,
@@ -70,7 +71,7 @@ function settledValue(result, fallback) {
   return result.status === "fulfilled" ? result.value : fallback;
 }
 
-function collectCheckErrors({ dup, prByUrl, reachable, prByUser }) {
+function collectCheckErrors({ dup, prByUrl, reachable, prByUser, blockedHost }) {
   const errors = [];
   if (settledValue(dup, false)) {
     errors.push({
@@ -102,6 +103,15 @@ function collectCheckErrors({ dup, prByUrl, reachable, prByUser }) {
       code: "pr_open_user",
       status: 409,
       message: "You already have an open submission. Please wait for it to be reviewed.",
+    });
+  }
+  const matchedBlockedHost = settledValue(blockedHost, null);
+  if (matchedBlockedHost) {
+    errors.push({
+      field: "url",
+      code: "blocked_host",
+      status: 400,
+      message: `This domain is not allowed (${matchedBlockedHost}).`,
     });
   }
   return errors;
@@ -149,7 +159,7 @@ export default async function handler(req, res) {
 
   const formattedSubmittedUrl = formatUrl(data.url);
 
-  const [dup, prByUrl, reachable, prByUser] = await Promise.allSettled([
+  const [dup, prByUrl, reachable, prByUser, blockedHost] = await Promise.allSettled([
     Promise.resolve(
       Array.isArray(membersFile.parsed?.sites) &&
         membersFile.parsed.sites.some((s) => isLooseDuplicate(s.website, data.url))
@@ -157,9 +167,16 @@ export default async function handler(req, res) {
     findOpenPRsByUrl(formattedSubmittedUrl),
     checkReachable(data.url),
     findOpenPRsByDiscordUser(session.sub),
+    Promise.resolve(getBlockedHostMatch(new URL(data.url).hostname)),
   ]);
 
-  const checkErrors = collectCheckErrors({ dup, prByUrl, reachable, prByUser });
+  const checkErrors = collectCheckErrors({
+    dup,
+    prByUrl,
+    reachable,
+    prByUser,
+    blockedHost,
+  });
   if (checkErrors.length) {
     const status = checkErrors.some((e) => e.status === 409) ? 409 : 400;
     const errors = checkErrors.map(({ status: _s, ...rest }) => rest);
