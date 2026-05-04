@@ -32,6 +32,9 @@ async function readJsonBody(req) {
   });
 }
 
+const REACHABILITY_RETRIES = 10;
+const REACHABILITY_RETRY_DELAY_MS = 3000;
+
 async function checkReachable(url) {
   const tryFetch = async (method) => {
     try {
@@ -45,8 +48,13 @@ async function checkReachable(url) {
       return false;
     }
   };
-  if (await tryFetch("HEAD")) return true;
-  return tryFetch("GET");
+
+  for (let i = 0; i <= REACHABILITY_RETRIES; i++) {
+    if (i > 0) await new Promise((r) => setTimeout(r, REACHABILITY_RETRY_DELAY_MS));
+    if (await tryFetch("HEAD")) return true;
+    if (await tryFetch("GET")) return true;
+  }
+  return false;
 }
 
 function renderPrBody({ name, profession, url, discord_username, discord_user_id }) {

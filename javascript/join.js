@@ -141,6 +141,10 @@ function wireFormSubmit() {
       url: (formData.get("url") || "").toString().trim(),
     };
 
+    const reachabilityTimer = setTimeout(() => {
+      setSubmitNote("Checking if your site is reachable, this may take a moment…");
+    }, 5000);
+
     let res;
     try {
       res = await fetch("/api/submit", {
@@ -150,10 +154,13 @@ function wireFormSubmit() {
         body: JSON.stringify(payload),
       });
     } catch {
+      clearTimeout(reachabilityTimer);
       submitBtn.disabled = false;
       setSubmitNote("Network error — please try again.", true);
       return;
     }
+
+    clearTimeout(reachabilityTimer);
 
     if (res.status === 401) {
       submitBtn.disabled = false;

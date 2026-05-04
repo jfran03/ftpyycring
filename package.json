@@ -4,7 +4,6 @@
     "node": "20.x"
   },
   "dependencies": {
-    "hono": "^4.6.14",
     "jose": "^5.9.6"
   },
   "devDependencies": {
